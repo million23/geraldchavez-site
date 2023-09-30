@@ -1,4 +1,3 @@
-import { Card, Text } from "@radix-ui/themes";
 import {
 	SiFigma,
 	SiNextdotjs,
@@ -10,6 +9,7 @@ import {
 } from "react-icons/si";
 
 import Link from "next/link";
+import { Card } from "./ui/card";
 
 interface TechStack {
 	name: string;
@@ -81,17 +81,15 @@ const TechStack = () => {
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-2 mt-5 gap-2">
 			{techStack.map((tech) => (
-				<Link href={tech.url} target="_">
+				<Link href={tech.url} target="_" key={tech.name}>
 					<Card className="select-none hover:-translate-y-1 group transition-all cursor-pointer">
-						<div className="flex items-center gap-3">
+						<div className="flex items-center gap-3 px-5 py-3">
 							<div className="w-16 h-16 text-2xl group-hover:text-[#e93d82] transition-colors flex justify-center items-center border rounded-full">
 								{tech.logo}
 							</div>
 							<div className="flex flex-col flex-1">
-								<Text size="4" weight="bold">
-									{tech.name}
-								</Text>
-								<Text>{tech.description}</Text>
+								<h4 className="font-bold">{tech.name}</h4>
+								<p>{tech.description}</p>
 							</div>
 						</div>
 					</Card>
