@@ -17,6 +17,7 @@ export const getStaticProps = async () => {
             category
             publishedAt
             updatedAt
+				id
          }
       }
    `;
@@ -39,13 +40,14 @@ interface BlogPageProps {
 			publishedAt: string;
 			updatedAt: string;
 			blogContent: string;
+			id: string;
 		}[];
 	};
 }
 
 const BlogPage = ({ data }: BlogPageProps) => {
 	return (
-		<main className="py-16">
+		<div className="py-16">
 			<h2>Blogs</h2>
 			<p className="max-w-xl">
 				Here, I will be posting my blogs. I will use this as a way to document
@@ -53,21 +55,24 @@ const BlogPage = ({ data }: BlogPageProps) => {
 				knowledge and experience with others. I hope you enjoy reading my blogs.
 			</p>
 
-			<section className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-4">
+			<div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-4">
 				{data.blogs.map((blog) => (
-					<Link href={`/blog/${blog.slug}`}>
-						<Card>
-							<CardHeader>
+					<Card key={blog.id}>
+						<CardHeader>
+							<Link
+								href={`/blog/${blog.slug}`}
+								className="cursor-pointer hover:text-primary transition-all"
+							>
 								<CardTitle>{blog.title}</CardTitle>
-							</CardHeader>
-							<CardContent>
-								<p>{dayjs(blog.updatedAt).format("MMMM DD, YYYY")}</p>
-							</CardContent>
-						</Card>
-					</Link>
+							</Link>
+						</CardHeader>
+						<CardContent>
+							<p>{dayjs(blog.updatedAt).format("MMMM DD, YYYY")}</p>
+						</CardContent>
+					</Card>
 				))}
-			</section>
-		</main>
+			</div>
+		</div>
 	);
 };
 
