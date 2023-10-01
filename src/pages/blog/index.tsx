@@ -68,7 +68,7 @@ const BlogPage = () => {
 						))}
 				{_blogs.isSuccess &&
 					_blogs.data.blogs.map((blog) => (
-						<Card key={blog.id}>
+						<Card key={blog.id} className="max-h-fit">
 							<CardHeader>
 								<Link
 									href={`/blog/${blog.slug}`}
