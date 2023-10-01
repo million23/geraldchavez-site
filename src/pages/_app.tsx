@@ -5,12 +5,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Navbar from "@/components/navbar";
 import ThemeProvider from "@/components/theme-provider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { useTheme } from "next-themes";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
-	const { setTheme, theme } = useTheme();
-
 	const _queryClient = new QueryClient({
 		defaultOptions: {
 			queries: {
