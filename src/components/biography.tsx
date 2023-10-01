@@ -1,4 +1,4 @@
-import { Tabs, Text } from "@radix-ui/themes";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
 enum BiographyTabs {
 	EDUCATION = "education",
@@ -82,48 +82,55 @@ const biographyContents: BiographyContents = {
 
 const Biography = () => {
 	return (
-		<Tabs.Root defaultValue={BiographyTabs.WORK}>
-			<Tabs.List className="mt-5">
-				<Tabs.Trigger value="education">Education</Tabs.Trigger>
-				<Tabs.Trigger value="life">Personal Life</Tabs.Trigger>
-				<Tabs.Trigger value="work">Professional Work</Tabs.Trigger>
-			</Tabs.List>
+		// <Tabs.Root defaultValue={BiographyTabs.WORK}>
+		// 	<Tabs.List className="mt-5">
+		// 		<Tabs.Trigger value="education">Education</Tabs.Trigger>
+		// 		<Tabs.Trigger value="life">Personal Life</Tabs.Trigger>
+		// 		<Tabs.Trigger value="work">Professional Work</Tabs.Trigger>
+		// 	</Tabs.List>
 
+		// </Tabs.Root>
+		<Tabs defaultValue={BiographyTabs.WORK} className="w-full">
+			<TabsList>
+				<TabsTrigger value="work">Professional Work</TabsTrigger>
+				<TabsTrigger value="education">Education</TabsTrigger>
+				<TabsTrigger value="life">Personal Life</TabsTrigger>
+			</TabsList>
 			<div className="p-5 pt-6">
-				<Tabs.Content value={BiographyTabs.EDUCATION}>
+				<TabsContent value={BiographyTabs.EDUCATION}>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 						{biographyContents.education.map((content, index) => (
 							<div className="flex flex-col gap-2 p-2">
 								<h2 className="text-3xl">{content.question}</h2>
-								<Text>{content.answer}</Text>
+								<p>{content.answer}</p>
 							</div>
 						))}
 					</div>
-				</Tabs.Content>
+				</TabsContent>
 
-				<Tabs.Content value={BiographyTabs.LIFE}>
+				<TabsContent value={BiographyTabs.LIFE}>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 						{biographyContents.life.map((content, index) => (
 							<div className="flex flex-col gap-2 p-2">
 								<h2 className="text-3xl">{content.question}</h2>
-								<Text>{content.answer}</Text>
+								<p>{content.answer}</p>
 							</div>
 						))}
 					</div>
-				</Tabs.Content>
+				</TabsContent>
 
-				<Tabs.Content value={BiographyTabs.WORK}>
+				<TabsContent value={BiographyTabs.WORK}>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 						{biographyContents.work.map((content, index) => (
 							<div className="flex flex-col gap-2 p-2">
 								<h2 className="text-3xl">{content.question}</h2>
-								<Text>{content.answer}</Text>
+								<p>{content.answer}</p>
 							</div>
 						))}
 					</div>
-				</Tabs.Content>
+				</TabsContent>
 			</div>
-		</Tabs.Root>
+		</Tabs>
 	);
 };
 
