@@ -1,14 +1,15 @@
+import $$hygraph from "@/lib/graph-client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { FiArrowLeft } from "react-icons/fi";
+import Link from "next/link";
+import Markdown from "react-markdown";
+import Page from "@/components/page-content";
 import { Skeleton } from "@/components/ui/skeleton";
-import $$hygraph from "@/lib/graph-client";
-import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { gql } from "graphql-request";
-import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { FiArrowLeft } from "react-icons/fi";
-import Markdown from "react-markdown";
 
 interface BlogPostProps {
 	data: {
@@ -51,7 +52,7 @@ const BlogPost = () => {
 	});
 
 	return (
-		<main className="py-10">
+		<Page title="Blog">
 			<Link href="/blog">
 				<Button variant="ghost">
 					<FiArrowLeft className="mr-2" />
@@ -111,7 +112,7 @@ const BlogPost = () => {
 					</p>
 				</div>
 			)}
-		</main>
+		</Page>
 	);
 };
 

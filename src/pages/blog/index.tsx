@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+import Page from "@/components/page-content";
 import { Skeleton } from "@/components/ui/skeleton";
 import $$hygraph from "@/lib/graph-client";
 import { useQuery } from "@tanstack/react-query";
@@ -51,7 +52,7 @@ const BlogPage = () => {
 	});
 
 	return (
-		<div className="py-16">
+		<Page title="Blogs">
 			<h2>Blogs</h2>
 			<p className="max-w-xl">
 				Here, I will be posting my blogs. I will use this as a way to document
@@ -83,7 +84,7 @@ const BlogPage = () => {
 						</Card>
 					))}
 			</div>
-		</div>
+		</Page>
 	);
 };
 
