@@ -16,8 +16,10 @@ const Page: React.FC<PageProps> = ({
 	return (
 		<>
 			<Head>
-				<title>{title} | Gerald Chavez</title>
-				<title>Welcome! | Gerald Chavez</title>
+				<meta charSet="utf-8" />
+				<link rel="icon" href="/favicon.png" />
+
+				<title>{title ?? "Hello!"} | Gerald Chavez</title>
 				<meta name="description" content="Personal Website" />
 
 				<meta property="og:url" content="https://geraldchavez.vercel.app/" />
@@ -26,7 +28,7 @@ const Page: React.FC<PageProps> = ({
 				<meta property="og:description" content="Personal Website" />
 				<meta
 					property="og:image"
-					content="https://geraldchavez.vercel.app/api/og"
+					content="https://geraldchavez.vercel.app/OG.svg"
 				/>
 
 				<meta name="twitter:card" content="summary_large_image" />
@@ -39,7 +41,7 @@ const Page: React.FC<PageProps> = ({
 				<meta name="twitter:description" content="Personal Website" />
 				<meta
 					name="twitter:image"
-					content="https://geraldchavez.vercel.app/api/og"
+					content="https://geraldchavez.vercel.app/OG.svg"
 				/>
 			</Head>
 			<motion.div
