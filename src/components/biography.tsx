@@ -74,8 +74,7 @@ const biographyContents: BiographyContents = {
 		},
 		{
 			question: "Do you have a portfolio?",
-			answer:
-				"Yes, I do. But I'm still working on it. (I'm too shy about it. And yes, I know it's ironic.)",
+			answer: "Yes, I do. You can check it out by using the navigation bar",
 		},
 	],
 };

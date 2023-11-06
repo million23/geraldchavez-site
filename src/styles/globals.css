@@ -82,10 +82,15 @@
     @apply text-base;
   }
 
+
   .markdown-content {
     @apply prose text-foreground;
     @apply prose-headings:text-foreground prose-strong:text-primary;
-    @apply prose-code:text-foreground ;
     @apply prose-a:text-primary prose-a:underline prose-a:underline-offset-4;
   }
+
+  pre {
+    @apply text-sm;
+  }
+
 }
