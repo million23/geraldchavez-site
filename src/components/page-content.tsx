@@ -28,7 +28,7 @@ const Page: React.FC<PageProps> = ({
 				<meta property="og:description" content="Personal Website" />
 				<meta
 					property="og:image"
-					content="https://geraldchavez.vercel.app/OG.svg"
+					content="https://geraldchavez.vercel.app/OG.png"
 				/>
 
 				<meta name="twitter:card" content="summary_large_image" />
@@ -41,7 +41,7 @@ const Page: React.FC<PageProps> = ({
 				<meta name="twitter:description" content="Personal Website" />
 				<meta
 					name="twitter:image"
-					content="https://geraldchavez.vercel.app/OG.svg"
+					content="https://geraldchavez.vercel.app/OG.png"
 				/>
 			</Head>
 			<motion.div
