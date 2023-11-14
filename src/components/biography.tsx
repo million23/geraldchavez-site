@@ -31,24 +31,24 @@ const biographyContents: BiographyContents = {
 		{
 			question: "What did you focus on during your studies?",
 			answer:
-				"I focused on web development, specifically front-end development. I also studied a bit of UI/UX design.",
+				"I focused on web development, specifically front-end development. I also studied a principles and practices of Interface and Experience design.",
 		},
 	],
 	life: [
 		{
-			question: "What are your hobbies?",
-			answer:
-				"I love playing video games, code exaggerated ideas, and I also DJ.",
-		},
-		{
 			question: "What are your favorite video games?",
 			answer:
-				"My favorite video games Hollow Knight, Blasphemous, Borderlands(1, of course), and Assassin's Creed(all of them, except the 3D platformer ones - they suck).",
+				"My favorite video games Hollow Knight, Blasphemous, Borderlands(1, of course), Castlevania,  and Assassin's Creed(all of them, except the 3D platformer ones - they suck).",
 		},
 		{
 			question: "What is your favorite music genre?",
 			answer:
 				"I love listening to Oriental House, Electro French, and also Ariana Grande(dont judge me, i just love her).",
+		},
+		{
+			question: "What are your hobbies?",
+			answer:
+				"I love playing video games, code exaggerated ideas, and I also DJ.",
 		},
 	],
 	work: [
@@ -81,54 +81,47 @@ const biographyContents: BiographyContents = {
 
 const Biography = () => {
 	return (
-		// <Tabs.Root defaultValue={BiographyTabs.WORK}>
-		// 	<Tabs.List className="mt-5">
-		// 		<Tabs.Trigger value="education">Education</Tabs.Trigger>
-		// 		<Tabs.Trigger value="life">Personal Life</Tabs.Trigger>
-		// 		<Tabs.Trigger value="work">Professional Work</Tabs.Trigger>
-		// 	</Tabs.List>
-
-		// </Tabs.Root>
 		<Tabs defaultValue={BiographyTabs.WORK} className="w-full">
-			<TabsList>
+			<TabsList className="flex justify-center">
 				<TabsTrigger value="work">Professional Work</TabsTrigger>
 				<TabsTrigger value="education">Education</TabsTrigger>
 				<TabsTrigger value="life">Personal Life</TabsTrigger>
 			</TabsList>
-			<div className="p-5 pt-6">
-				<TabsContent value={BiographyTabs.EDUCATION}>
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-						{biographyContents.education.map((content, index) => (
-							<div className="flex flex-col gap-2 p-2">
-								<h2 className="text-3xl">{content.question}</h2>
-								<p>{content.answer}</p>
-							</div>
-						))}
+			<TabsContent
+				value={BiographyTabs.EDUCATION}
+				className="grid grid-cols-1 md:grid-cols-2 gap-5"
+			>
+				{biographyContents.education.map((content, index) => (
+					<div className="flex flex-col gap-2 p-2">
+						<h5 className="underline">{content.question}</h5>
+						<p>{content.answer}</p>
 					</div>
-				</TabsContent>
+				))}
+			</TabsContent>
 
-				<TabsContent value={BiographyTabs.LIFE}>
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-						{biographyContents.life.map((content, index) => (
-							<div className="flex flex-col gap-2 p-2">
-								<h2 className="text-3xl">{content.question}</h2>
-								<p>{content.answer}</p>
-							</div>
-						))}
+			<TabsContent
+				value={BiographyTabs.LIFE}
+				className="grid grid-cols-1 md:grid-cols-2 gap-5"
+			>
+				{biographyContents.life.map((content, index) => (
+					<div className="flex flex-col gap-2 p-2">
+						<h5 className="underline">{content.question}</h5>
+						<p>{content.answer}</p>
 					</div>
-				</TabsContent>
+				))}
+			</TabsContent>
 
-				<TabsContent value={BiographyTabs.WORK}>
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-						{biographyContents.work.map((content, index) => (
-							<div className="flex flex-col gap-2 p-2">
-								<h2 className="text-3xl">{content.question}</h2>
-								<p>{content.answer}</p>
-							</div>
-						))}
+			<TabsContent
+				value={BiographyTabs.WORK}
+				className="grid grid-cols-1 md:grid-cols-2 gap-5"
+			>
+				{biographyContents.work.map((content, index) => (
+					<div className="flex flex-col gap-2 p-2">
+						<h5 className="underline">{content.question}</h5>
+						<p>{content.answer}</p>
 					</div>
-				</TabsContent>
-			</div>
+				))}
+			</TabsContent>
 		</Tabs>
 	);
 };

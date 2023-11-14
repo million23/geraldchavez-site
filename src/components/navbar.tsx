@@ -11,14 +11,24 @@ const Navbar = () => {
 
 	return (
 		<>
-			<nav className="sticky top-0 flex justify-between items-center py-7 bg-background z-40">
+			<nav className="sticky top-0 flex justify-between items-center py-7 z-40 bg-background">
 				<Link href="/" className="flex gap-2 items-center group">
-					<Image src={"/logo.png"} width={25} height={25} alt="Gerald Chavez" />
+					<Image
+						src={"/logo.png"}
+						width={25}
+						height={25}
+						alt="Gerald Chavez"
+						priority={false}
+						placeholder="empty"
+					/>
 					<h6 className="opacity-0 group-hover:opacity-100 -translate-x-[5px] group-hover:translate-x-0 transition-all hidden md:block">
 						Gerald Chavez
 					</h6>
 				</Link>
 				<div className="flex items-center gap-2">
+					{/* <Link href="/service">
+						<Button variant="ghost">Quote a Website</Button>
+					</Link> */}
 					<Link href="/portfolio">
 						<Button variant="ghost">Portfolio</Button>
 					</Link>

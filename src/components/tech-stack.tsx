@@ -84,11 +84,13 @@ const TechStack = () => {
 				<Link href={tech.url} target="_" key={tech.name}>
 					<Card className="select-none hover:-translate-y-1 group transition-all cursor-pointer">
 						<div className="flex items-center gap-3 px-5 py-3">
-							<div className="w-16 h-16 text-2xl group-hover:text-[#e93d82] transition-colors flex justify-center items-center border rounded-full">
+							<div className="w-16 h-16 text-2xl group-hover:text-primary transition-colors flex justify-center items-center border rounded-full">
 								{tech.logo}
 							</div>
 							<div className="flex flex-col flex-1">
-								<h4 className="font-bold">{tech.name}</h4>
+								<h5 className=" group-hover:text-primary transition-colors">
+									{tech.name}
+								</h5>
 								<p>{tech.description}</p>
 							</div>
 						</div>

@@ -1,5 +1,5 @@
-import Head from "next/head";
 import { motion } from "framer-motion";
+import Head from "next/head";
 import { twMerge } from "tailwind-merge";
 
 type PageProps = {
@@ -16,33 +16,7 @@ const Page: React.FC<PageProps> = ({
 	return (
 		<>
 			<Head>
-				<meta charSet="utf-8" />
-				<link rel="icon" href="/favicon.png" />
-
 				<title>{title ?? "Hello!"} | Gerald Chavez</title>
-				<meta name="description" content="Personal Website" />
-
-				<meta property="og:url" content="https://geraldchavez.vercel.app/" />
-				<meta property="og:type" content="website" />
-				<meta property="og:title" content="Welcome! | Gerald Chavez" />
-				<meta property="og:description" content="Personal Website" />
-				<meta
-					property="og:image"
-					content="https://geraldchavez.vercel.app/OG.png"
-				/>
-
-				<meta name="twitter:card" content="summary_large_image" />
-				<meta property="twitter:domain" content="geraldchavez.vercel.app" />
-				<meta
-					property="twitter:url"
-					content="https://geraldchavez.vercel.app/"
-				/>
-				<meta name="twitter:title" content="Welcome!| Gerald Chavez" />
-				<meta name="twitter:description" content="Personal Website" />
-				<meta
-					name="twitter:image"
-					content="https://geraldchavez.vercel.app/OG.png"
-				/>
 			</Head>
 			<motion.div
 				initial={{ opacity: 0, y: 20 }}
