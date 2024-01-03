@@ -22,7 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
 			<ThemeProvider>
 				{/* announcement banner */}
 				<div className="flex gap-1 flex-wrap justify-center items-center py-2 bg-secondary text-secondary-foreground">
-					I have portfolios now! Checkt it out{" "}
+					I have portfolios now! Check it out{" "}
 					<Link href="/portfolio" className="text-primary">
 						here
 					</Link>{" "}

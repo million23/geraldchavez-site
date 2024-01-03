@@ -1,4 +1,4 @@
-import { SiGmail, SiLinkedin, SiTwitter } from "react-icons/si";
+import { SiInstagram, SiLinkedin, SiTwitter } from "react-icons/si";
 
 import Biography from "@/components/biography";
 import { Button } from "@/components/ui/button";
@@ -37,7 +37,8 @@ export default function Home() {
 						</motion.span>
 					</h1>
 					<h6>
-						Front-end developer and UI/UX designer based in the Philippines.
+						Front-end developer and UI/UX designer based in the
+						Philippines.
 					</h6>
 					<h6>
 						I'm currently working at{" "}
@@ -53,15 +54,19 @@ export default function Home() {
 
 				<div className="mt-32">
 					<h3 className="cursor-default select-none">Tech Stack</h3>
-					<p>Sidenote: I'm a massive fanboi of Vercel's products :D</p>
+					<p>
+						Sidenote: I'm a massive fanboi of Vercel's products :D
+					</p>
 					<TechStack />
 				</div>
 
 				<div className="mt-32">
-					<h3 className="cursor-default select-none">Short Biography</h3>
+					<h3 className="cursor-default select-none">
+						Short Biography
+					</h3>
 					<p className="mb-10">
-						Please bear with me, I'm not good at writing stuff about myself.
-						This is my background when I started my journey.
+						Stay with me, I know this may cringe some people. But,
+						here is my short background about me and my journey.
 					</p>
 
 					{/* biography */}
@@ -73,25 +78,34 @@ export default function Home() {
 					<p>
 						Are you interested in working with me? <br />
 						Or do you just want to say hi? <br />
-						Or do you want to ask me something? Feel free to contact me in these
-						platforms.
+						Or do you want to ask me something? Feel free to contact
+						me in these platforms.
 					</p>
 
 					{/* contact me */}
 					<div className="flex items-center mt-5 gap-2">
-						<Link href="mailto:chavezgerald23@gmail.com" target="_">
+						<Link
+							href="https://www.instagram.com/iam.geraldchavez/"
+							target="_"
+						>
 							<Button variant="outline" className="gap-2">
-								<SiGmail className="text-lg" />
-								<span>Google Mail</span>
+								<SiInstagram className="text-lg" />
+								<span>Instagram</span>
 							</Button>
 						</Link>
-						<Link href="https://twitter.com/chavezMillion" target="_">
+						<Link
+							href="https://twitter.com/chavezMillion"
+							target="_"
+						>
 							<Button variant="outline" className="gap-2">
 								<SiTwitter className="text-lg" />
 								<span>Twitter</span>
 							</Button>
 						</Link>
-						<Link href="https://www.linkedin.com/in/geraldchavez23/" target="_">
+						<Link
+							href="https://www.linkedin.com/in/geraldchavez23/"
+							target="_"
+						>
 							<Button variant="outline" className="gap-2">
 								<SiLinkedin className="text-lg" />
 								<span>LinkedIn</span>
