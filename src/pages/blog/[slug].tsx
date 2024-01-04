@@ -1,15 +1,14 @@
-import $$hygraph from "@/lib/graph-client";
+import Page from "@/components/page-content";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { FiArrowLeft } from "react-icons/fi";
-import Link from "next/link";
-import Markdown from "react-markdown";
-import Page from "@/components/page-content";
 import { Skeleton } from "@/components/ui/skeleton";
+import $$hygraph from "@/lib/graph-client";
 import dayjs from "dayjs";
 import { gql } from "graphql-request";
-import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/router";
+import { GetStaticPaths } from "next";
+import Link from "next/link";
+import { FiArrowLeft } from "react-icons/fi";
+import Markdown from "react-markdown";
 
 interface BlogPostProps {
 	data: {
@@ -23,34 +22,51 @@ interface BlogPostProps {
 		};
 	};
 }
-const BlogPost = () => {
-	const router = useRouter();
-	const { slug } = router.query;
 
-	const fetchBlog = async () => {
-		const query = gql`
-         query Blog {
-            blog(where: { slug:  "${slug}"}) {
-               title
-               slug
-               category
-               publishedAt
-               updatedAt
-               blogContent
-            }
-         }
-      `;
+export const getStaticPaths = (async () => {
+	const query = gql`
+		{
+			blogs {
+				slug
+			}
+		}
+	`;
 
-		const data = (await $$hygraph.request(query)) as BlogPostProps["data"];
-		return data.blog;
+	const data = (await $$hygraph.request(query)) as {
+		blogs: { slug: string }[];
 	};
+	const paths = data.blogs.map((blog) => ({
+		params: { slug: blog.slug },
+	}));
 
-	const _blog = useQuery({
-		queryKey: ["blog", slug],
-		enabled: !!slug,
-		queryFn: fetchBlog,
-	});
+	return {
+		paths,
+		fallback: true,
+	};
+}) satisfies GetStaticPaths;
 
+export const getStaticProps = async (context: { params: { slug: string } }) => {
+	const query = gql`
+		query Blog {
+			blog(where: { slug:  "${context.params.slug}"}) {
+				title
+				slug
+				category
+				publishedAt
+				updatedAt
+				blogContent
+			}
+		}
+	`;
+
+	const data = (await $$hygraph.request(query)) as BlogPostProps["data"];
+	return {
+		props: { data },
+		revalidate: 60 * 60 * 24, // 24 hours
+	};
+};
+
+const BlogPost = ({ data }: { data: BlogPostProps["data"] }) => {
 	return (
 		<Page title="Blog">
 			<Link href="/blog">
@@ -60,7 +76,7 @@ const BlogPost = () => {
 				</Button>
 			</Link>
 
-			{_blog.isLoading && (
+			{!data ? (
 				<div className="flex flex-col gap-2 mt-10">
 					<Skeleton className="h-10 w-3/4" />
 					<Skeleton className="h-10 w-1/2" />
@@ -74,42 +90,35 @@ const BlogPost = () => {
 								<Skeleton
 									className="h-7 w-full"
 									style={{
-										maxWidth: `${100 - Math.floor(Math.random() * 25)}%`,
+										maxWidth: `${
+											100 - Math.floor(Math.random() * 25)
+										}%`,
 									}}
 								/>
 							))}
 					</div>
 				</div>
-			)}
-
-			{!_blog.isLoading && _blog.isSuccess && (
+			) : (
 				<div className="flex flex-col gap-2 mt-10">
-					<h2>{_blog.data.title}</h2>
+					<h2>{data.blog.title}</h2>
 					<p className="text-opacity-50">
-						{dayjs(_blog.data.publishedAt).format("MMMM DD, YYYY")}
+						{dayjs(data.blog.publishedAt).format("MMMM DD, YYYY")}
 					</p>
 					<div className="mt-6 flex gap-2 flex-wrap">
-						{_blog.data.category.map((cat) => (
+						{data.blog.category.map((cat) => (
 							<Badge variant="outline">{cat}</Badge>
 						))}
 					</div>
 
 					<div className="mt-16 markdown-content w-full max-w-none">
-						<Markdown>{_blog.data.blogContent}</Markdown>
+						<Markdown>{data.blog.blogContent}</Markdown>
 					</div>
 
 					<div className="sticky mt-5 bottom-10 flex justify-end px-2 z-10">
-						<Button onClick={() => window.scrollTo(0, 0)}>Scroll to top</Button>
+						<Button onClick={() => window.scrollTo(0, 0)}>
+							Scroll to top
+						</Button>
 					</div>
-				</div>
-			)}
-
-			{_blog.isError && (
-				<div className="flex flex-col gap-2 mt-10">
-					<h2>Something went wrong</h2>
-					<p className="text-opacity-50">
-						We were unable to fetch the blog post. Please try again later.
-					</p>
 				</div>
 			)}
 		</Page>
