@@ -46,7 +46,10 @@ export const getServerSideProps = async ({
 
 const PortfolioIndividual = (props: PageProps) => {
 	return (
-		<Page title={props.portfolio.productName ?? "Page"}>
+		<Page
+			title={props.portfolio.productName ?? "Page"}
+			className="w-full max-w-5xl mx-auto py-32"
+		>
 			{props.portfolio && (
 				<div className="flex flex-col gap-2 mt-10">
 					<div className="flex gap-5 items-center">

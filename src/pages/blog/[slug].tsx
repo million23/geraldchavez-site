@@ -1,15 +1,15 @@
-import $$hygraph from "@/lib/graph-client";
+import Page from "@/components/page-content";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { FiArrowLeft } from "react-icons/fi";
-import Link from "next/link";
-import Markdown from "react-markdown";
-import Page from "@/components/page-content";
 import { Skeleton } from "@/components/ui/skeleton";
+import $$hygraph from "@/lib/graph-client";
+import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { gql } from "graphql-request";
-import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import { FiArrowLeft } from "react-icons/fi";
+import Markdown from "react-markdown";
 
 interface BlogPostProps {
 	data: {
@@ -52,7 +52,7 @@ const BlogPost = () => {
 	});
 
 	return (
-		<Page title="Blog">
+		<Page title="Blog" className="py-32 w-full max-w-5xl mx-auto">
 			<Link href="/blog">
 				<Button variant="ghost">
 					<FiArrowLeft className="mr-2" />
@@ -74,7 +74,9 @@ const BlogPost = () => {
 								<Skeleton
 									className="h-7 w-full"
 									style={{
-										maxWidth: `${100 - Math.floor(Math.random() * 25)}%`,
+										maxWidth: `${
+											100 - Math.floor(Math.random() * 25)
+										}%`,
 									}}
 								/>
 							))}
@@ -99,7 +101,9 @@ const BlogPost = () => {
 					</div>
 
 					<div className="sticky mt-5 bottom-10 flex justify-end px-2 z-10">
-						<Button onClick={() => window.scrollTo(0, 0)}>Scroll to top</Button>
+						<Button onClick={() => window.scrollTo(0, 0)}>
+							Scroll to top
+						</Button>
 					</div>
 				</div>
 			)}
@@ -108,7 +112,8 @@ const BlogPost = () => {
 				<div className="flex flex-col gap-2 mt-10">
 					<h2>Something went wrong</h2>
 					<p className="text-opacity-50">
-						We were unable to fetch the blog post. Please try again later.
+						We were unable to fetch the blog post. Please try again
+						later.
 					</p>
 				</div>
 			)}

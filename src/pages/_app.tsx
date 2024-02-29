@@ -53,13 +53,15 @@ export default function App({ Component, pageProps }: AppProps) {
 									<div className="flex gap-3">
 										<Link
 											className="hover:underline underline-offset-4"
-											href="/"
+											href="https://www.linkedin.com/in/geraldchavez23/"
+											target="_"
 										>
 											LinkedIn
 										</Link>
 										<Link
 											className="hover:underline underline-offset-4"
-											href="/"
+											href="https://www.instagram.com/iam.geraldchavez/"
+											target="_"
 										>
 											Instagram
 										</Link>
