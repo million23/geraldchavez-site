@@ -61,8 +61,9 @@ const NewLandingPage = () => {
 				<div className="py-10 h-screen flex flex-col justify-end gap-5">
 					<MousePointerClickIcon size={80} strokeWidth={1.2} />
 					<p className="w-full max-w-xl text-3xl">
-						Philippine based frontend developer with a niche for
-						creating functional and modern web applications.
+						Hi, I&apos;m Gerald Chavez, a frontend developer, with a
+						focus on creating modern and functional web
+						applications.
 					</p>
 
 					<div className="mt-10 grid grid-cols-4 lg:p-7 gap-5">
