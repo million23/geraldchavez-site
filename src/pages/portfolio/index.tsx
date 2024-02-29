@@ -1,11 +1,11 @@
 import Markdown, { Components } from "react-markdown";
 
+import Page from "@/components/page-content";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Portfolio } from "@/lib/types";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-import Page from "@/components/page-content";
-import { Portfolio } from "@/lib/types";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useQuery } from "@tanstack/react-query";
 
 const PortfolioPage = () => {
 	const fetchPortfolio = async () => {
@@ -38,7 +38,9 @@ const PortfolioPage = () => {
 			);
 		},
 		b: ({ children, node, className }) => {
-			return <span className={`${className} font-semibold`}>{children}</span>;
+			return (
+				<span className={`${className} font-semibold`}>{children}</span>
+			);
 		},
 	};
 
@@ -50,12 +52,15 @@ const PortfolioPage = () => {
 				<br /> Feel free to check them out or give some feedback.
 			</p>
 
-			<div className="grid grid-cols-1  gap-4 mt-16">
+			<div className="grid grid-cols-1 gap-4 mt-16">
 				{_portfolio.isLoading &&
 					Array(3)
 						.fill(0)
 						.map((_, i) => (
-							<Skeleton key={`portfoliocard_loader_${i}`} className="h-40" />
+							<Skeleton
+								key={`portfoliocard_loader_${i}`}
+								className="h-40"
+							/>
 						))}
 
 				{_portfolio.isFetched &&
