@@ -52,12 +52,13 @@ const BlogPage = () => {
 	});
 
 	return (
-		<Page title="Blogs">
+		<Page title="Blogs" className="w-full max-w-5xl mx-auto pt-32">
 			<h2>Blogs</h2>
 			<p className="max-w-xl">
-				Here, I will be posting my blogs. I will use this as a way to document
-				my journey as a developer. I will also use this as a way to share my
-				knowledge and experience with others. I hope you enjoy reading my blogs.
+				Here, I will be posting my blogs. I will use this as a way to
+				document my journey as a developer. I will also use this as a
+				way to share my knowledge and experience with others. I hope you
+				enjoy reading my blogs.
 			</p>
 
 			<div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -65,7 +66,10 @@ const BlogPage = () => {
 					Array(4)
 						.fill(0)
 						.map((_, i) => (
-							<Skeleton key={`blogcard_loader_${i}`} className="h-40" />
+							<Skeleton
+								key={`blogcard_loader_${i}`}
+								className="h-40"
+							/>
 						))}
 				{_blogs.isSuccess &&
 					_blogs.data.blogs.map((blog) => (
@@ -79,7 +83,11 @@ const BlogPage = () => {
 								</Link>
 							</CardHeader>
 							<CardContent>
-								<p>{dayjs(blog.updatedAt).format("MMMM DD, YYYY")}</p>
+								<p>
+									{dayjs(blog.updatedAt).format(
+										"MMMM DD, YYYY"
+									)}
+								</p>
 							</CardContent>
 						</Card>
 					))}

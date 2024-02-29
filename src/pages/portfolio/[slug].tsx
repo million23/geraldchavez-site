@@ -1,12 +1,12 @@
-import $$hygraph from "@/lib/graph-client";
-import { Button } from "@/components/ui/button";
-import { FiArrowLeft } from "react-icons/fi";
-import Link from "next/link";
-import Markdown from "react-markdown";
 import Page from "@/components/page-content";
+import { Button } from "@/components/ui/button";
+import $$hygraph from "@/lib/graph-client";
 import { Portfolio } from "@/lib/types";
 import dayjs from "dayjs";
 import { gql } from "graphql-request";
+import Link from "next/link";
+import { FiArrowLeft } from "react-icons/fi";
+import Markdown from "react-markdown";
 
 type PageProps = {
 	portfolio: Portfolio;
@@ -14,7 +14,9 @@ type PageProps = {
 
 export const getServerSideProps = async ({
 	params,
-}: { params: { slug: string } }) => {
+}: {
+	params: { slug: string };
+}) => {
 	const { slug } = params;
 
 	const q = gql`
@@ -35,11 +37,11 @@ export const getServerSideProps = async ({
 		return {
 			notFound: true,
 		};
-	} else {
-		return {
-			props: portfolio,
-		};
 	}
+
+	return {
+		props: portfolio,
+	};
 };
 
 const PortfolioIndividual = (props: PageProps) => {
@@ -48,15 +50,20 @@ const PortfolioIndividual = (props: PageProps) => {
 			{props.portfolio && (
 				<div className="flex flex-col gap-2 mt-10">
 					<div className="flex gap-5 items-center">
-						<Link href="/portfolio">
+						<Link href="/">
 							<Button variant="ghost" size="icon">
 								<FiArrowLeft size={18} />
 							</Button>
 						</Link>
 						<div>
-							<h2>{props.portfolio.productName ?? "aklsjd"}</h2>
+							<h2>
+								{props.portfolio.productName ??
+									"Placeholder Project Name"}
+							</h2>
 							<p className="text-opacity-50">
-								{dayjs(props.portfolio.publishedAt).format("MMMM DD, YYYY")}
+								{dayjs(props.portfolio.publishedAt).format(
+									"MMMM DD, YYYY"
+								)}
 							</p>
 						</div>
 					</div>
@@ -66,7 +73,9 @@ const PortfolioIndividual = (props: PageProps) => {
 					</div>
 
 					<div className="sticky mt-5 bottom-10 flex justify-end px-2 z-10">
-						<Button onClick={() => window.scrollTo(0, 0)}>Scroll to top</Button>
+						<Button onClick={() => window.scrollTo(0, 0)}>
+							Scroll to top
+						</Button>
 					</div>
 				</div>
 			)}

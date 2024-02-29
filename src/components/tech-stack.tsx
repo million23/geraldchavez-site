@@ -18,7 +18,7 @@ interface TechStack {
 	url: string;
 }
 
-const techStack: TechStack[] = [
+export const techStack: TechStack[] = [
 	{
 		name: "Vercel",
 		description:
