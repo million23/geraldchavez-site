@@ -1,12 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
 import Page from "@/components/page-content";
 import { Skeleton } from "@/components/ui/skeleton";
-import $$hygraph from "@/lib/graph-client";
+import { PostData } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { gql } from "graphql-request";
 import Link from "next/link";
 
 dayjs.extend(relativeTime);
@@ -27,22 +24,10 @@ interface BlogPageProps {
 
 const BlogPage = () => {
 	const fetchBlogs = async () => {
-		const query = gql`
-			{
-				blogs {
-					title
-					slug
-					category
-					publishedAt
-					updatedAt
-					blogContent
-					id
-				}
-			}
-		`;
+		const res = await fetch("/api/get-post");
+		const data = (await res.json()) as PostData[];
 
-		const data = await $$hygraph.request(query);
-		return data as BlogPageProps["data"];
+		return data;
 	};
 
 	const _blogs = useQuery({
@@ -61,35 +46,31 @@ const BlogPage = () => {
 				enjoy reading my blogs.
 			</p>
 
-			<div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-4">
+			<div className="mt-16 flex flex-col gap-4">
 				{_blogs.isLoading &&
 					Array(4)
 						.fill(0)
 						.map((_, i) => (
 							<Skeleton
 								key={`blogcard_loader_${i}`}
-								className="h-40"
+								className="h-20"
 							/>
 						))}
 				{_blogs.isSuccess &&
-					_blogs.data.blogs.map((blog) => (
-						<Card key={blog.id} className="max-h-fit">
-							<CardHeader>
-								<Link
-									href={`/blog/${blog.slug}`}
-									className="cursor-pointer hover:text-primary transition-all"
-								>
-									<CardTitle>{blog.title}</CardTitle>
-								</Link>
-							</CardHeader>
-							<CardContent>
-								<p>
-									{dayjs(blog.updatedAt).format(
+					_blogs.data.map((blog) => (
+						<div className="p-5 border border-border rounded-md">
+							<Link
+								href={`/blog/${blog.slug}`}
+								className="cursor-pointer hover:text-primary transition-all"
+							>
+								<h5>{blog.title}</h5>
+								<p className="text-sm">
+									{dayjs(blog.publishedAt).format(
 										"MMMM DD, YYYY"
 									)}
 								</p>
-							</CardContent>
-						</Card>
+							</Link>
+						</div>
 					))}
 			</div>
 		</Page>

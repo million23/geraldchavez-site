@@ -1,26 +1,35 @@
-import { ArrowRight, CircleIcon, MousePointerClickIcon } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+	ArrowRight,
+	CircleIcon,
+	Loader2,
+	MousePointerClickIcon,
+} from "lucide-react";
 
 import Page from "@/components/page-content";
 import { techStack } from "@/components/tech-stack";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Portfolio } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import type { Components } from "react-markdown";
-import ReactMarkdown from "react-markdown";
 
 const NewLandingPage = () => {
 	const fetchPortfolio = async () => {
 		const res = await fetch("/api/portfolios");
-		const data = await res.json();
+		const data = (await res.json()) as Portfolio[];
 
-		return data as { portfolios: Portfolio[] };
+		return data;
 	};
 
 	const _portfolio = useQuery({
 		queryKey: ["portfolio.all"],
 		queryFn: fetchPortfolio,
 		staleTime: 1000 * 60 * 60, // 1 hour
+		refetchOnWindowFocus: false,
+		refetchOnMount: false,
+		cacheTime: 1000 * 60 * 60, // 1 hour
 	});
 
 	const markdownComponents: Partial<Components> = {
@@ -48,54 +57,96 @@ const NewLandingPage = () => {
 
 	return (
 		<>
-			{/* loading screen */}
-			{/* <AnimatePresence>
-					{_portfolio.isLoading && <LandingLoading />}
-				</AnimatePresence> */}
+			{/* loading */}
+			<AnimatePresence mode="wait">
+				{_portfolio.isFetching && (
+					<motion.div
+						key={"loader"}
+						animate={{ opacity: 1 }}
+						exit={{
+							opacity: 0,
+							transition: { duration: 0.5, delay: 0.5 },
+						}}
+						className="py-10 min-h-screen fixed top-0 left-0 w-full h-screen z-50 flex justify-center items-center bg-background"
+					>
+						<Loader2
+							size={80}
+							strokeWidth={1.2}
+							className="animate-spin"
+						/>
+					</motion.div>
+				)}
+			</AnimatePresence>
 
 			<Page
 				title="Welcome!"
 				className=" py-10 min-h-screen flex flex-col gap-10 relative"
 			>
 				{/* hero */}
-				<div className="py-10 h-screen flex flex-col justify-end gap-5">
-					<MousePointerClickIcon size={80} strokeWidth={1.2} />
-					<p className="w-full max-w-xl text-3xl">
-						Hi, I&apos;m Gerald Chavez, a frontend developer, with a
-						focus on creating modern and functional web
-						applications.
-					</p>
-
-					<div className="mt-10 grid grid-cols-4 lg:p-7 gap-5">
-						<div className="col-span-full lg:col-span-2">
-							<p>Current work</p>
-							<p className="font-medium">
-								Software Engineer - OTis Philippines Inc.
+				<AnimatePresence mode="wait">
+					{_portfolio.isSuccess && (
+						<motion.div
+							initial={{ opacity: 0, translateY: 20 }}
+							animate={{ opacity: 1, translateY: 0 }}
+							transition={{
+								duration: 0.5,
+								ease: "easeOut",
+								delay: 0.5,
+							}}
+							className="py-10 h-screen flex flex-col justify-end gap-5"
+						>
+							<MousePointerClickIcon
+								size={80}
+								strokeWidth={1.2}
+							/>
+							<p className="w-full max-w-xl text-3xl">
+								Philippine based frontend developer with a niche
+								for creating functional and modern web
+								applications.
 							</p>
-						</div>
-						<div className="col-span-full md:col-span-1 ">
-							<p>Based in</p>
-							<p className="font-medium">Philippines</p>
-						</div>
-						<div className="col-span-full md:col-span-1">
-							<p>Keep in touch</p>
-							<Link
-								className="font-medium"
-								href="mailto:chavezgerald23@gmail.com"
-							>
-								chavezgerald23@gmail.com
-							</Link>
-						</div>
-					</div>
-				</div>
+
+							<div className="mt-10 grid grid-cols-4 lg:p-7 gap-5">
+								<div className="col-span-full lg:col-span-2">
+									<p>Current work</p>
+									<p className="font-medium">
+										Software Engineer - OTis Philippines
+										Inc.
+									</p>
+								</div>
+								<div className="col-span-full md:col-span-1 ">
+									<p>Based in</p>
+									<p className="font-medium">Philippines</p>
+								</div>
+								<div className="col-span-full md:col-span-1">
+									<p>Keep in touch</p>
+									<Link
+										className="font-medium"
+										href="mailto:chavezgerald23@gmail.com"
+									>
+										chavezgerald23@gmail.com
+									</Link>
+								</div>
+							</div>
+						</motion.div>
+					)}
+				</AnimatePresence>
 
 				{/* projects */}
-				<div className="py-10 flex flex-col gap-5">
+				<div className="py-10 flex flex-col gap-5" id="projects">
 					<h1>Projects</h1>
 
-					<div className="grid grid-cols-3 gap-5 lg:p-10">
+					<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 lg:p-10">
+						{_portfolio.isLoading &&
+							Array(3)
+								.fill(0)
+								.map((_, i) => (
+									<Skeleton
+										key={`portfoliocard_loader_${i}`}
+										className="h-[360px]"
+									/>
+								))}
 						{_portfolio.isSuccess &&
-							_portfolio.data.portfolios.map((portfolio) => (
+							_portfolio.data.map((portfolio) => (
 								<div className="rounded-xl border-4 border-border overflow-hidden col-span-full md:col-span-1">
 									<div className="bg-border flex items-center justify-start p-2 gap-1 mt-[-3px]">
 										<CircleIcon
@@ -114,10 +165,8 @@ const NewLandingPage = () => {
 									<Link href={`/portfolio/${portfolio.slug}`}>
 										<div className="relative w-full h-64">
 											<Image
-												src={portfolio.cardImage.url}
-												alt={
-													portfolio.cardImage.fileName
-												}
+												src={portfolio.mainImage.url}
+												alt={portfolio.mainImage.alt}
 												fill
 												className="w-full h-60 object-cover object-center"
 											/>
@@ -127,14 +176,8 @@ const NewLandingPage = () => {
 										<Link
 											href={`/portfolio/${portfolio.slug}`}
 										>
-											<h3>{portfolio.productName}</h3>
+											<h3>{portfolio.title}</h3>
 										</Link>
-										<ReactMarkdown
-											components={markdownComponents}
-											className="line-clamp-2"
-										>
-											{portfolio.projectDescription}
-										</ReactMarkdown>
 									</div>
 								</div>
 							))}
