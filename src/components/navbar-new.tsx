@@ -1,8 +1,12 @@
-import { buttonVariants } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 
+import { SunMoonIcon } from "lucide-react";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 
 const NavbarNew = () => {
+	const { theme, setTheme } = useTheme();
+
 	return (
 		<nav className="fixed top-0 left-0 w-full flex items-center z-50 px-5 py-3 bg-background rounded-b-xl">
 			<div className="w-full flex items-center gap-5">
@@ -20,6 +24,15 @@ const NavbarNew = () => {
 					>
 						Contact
 					</Link>
+					<Button
+						onClick={() =>
+							setTheme(theme === "dark" ? "light" : "dark")
+						}
+						size="icon"
+						variant="ghost"
+					>
+						<SunMoonIcon />
+					</Button>
 				</div>
 			</div>
 		</nav>
