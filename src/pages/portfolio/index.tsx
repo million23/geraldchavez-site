@@ -1,11 +1,10 @@
-import Markdown, { Components } from "react-markdown";
-
 import Page from "@/components/page-content";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Portfolio } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
+import { Components } from "react-markdown";
 
 const PortfolioPage = () => {
 	const fetchPortfolio = async () => {
@@ -71,22 +70,16 @@ const PortfolioPage = () => {
 						>
 							<div className="min-w-[300px] min-h-[200px] relative">
 								<Image
-									src={portfolio.cardImage.url}
-									alt={portfolio.cardImage.fileName}
+									src={portfolio.mainImage.url}
+									alt={portfolio.mainImage.alt}
 									fill
 									className="rounded-lg object-center object-cover"
 								/>
 							</div>
 							<div className="flex flex-col gap-2">
 								<h4 className="group-hover:text-primary transition-all">
-									{portfolio.productName}
+									{portfolio.title}
 								</h4>
-								<Markdown
-									components={markdownComponents}
-									className="line-clamp-3"
-								>
-									{portfolio.projectDescription}
-								</Markdown>
 							</div>
 						</Link>
 					))}

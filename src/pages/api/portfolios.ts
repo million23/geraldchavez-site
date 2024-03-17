@@ -1,33 +1,28 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import $$hygraph from "@/lib/graph-client";
-import { IPortfolioData } from "@/lib/types";
-import { gql } from "graphql-request";
+import $$sanity from "@/lib/sanity.client";
+import { Portfolio } from "@/lib/types";
+import { groq } from "next-sanity";
 
 export default async function handler(
 	req: NextApiRequest,
-	res: NextApiResponse<IPortfolioData["data"]>,
+	res: NextApiResponse<Portfolio[]>
 	// res: NextApiResponse,
 ) {
 	const fetchPortfolios = async () => {
-		const query = gql`
-			{
-				portfolios (orderBy: publishedAt_ASC) {
-					id
-					slug
-					cardImage {
-						url
-						fileName
-					}
-					productName
-					updatedAt
-					projectDescription
-				}
+		const query = groq`
+			*[_type == "portfolio"] {
+				_id,
+				body,
+				title,
+				publishedAt,
+				"slug": slug.current,
+				mainImage { alt, "url": asset -> url },
 			}
 		`;
 
-		const data = $$hygraph.request(query);
-		return data as Promise<IPortfolioData["data"]>;
+		const data = (await $$sanity.fetch(query)) as Portfolio[];
+		return data;
 	};
 
 	const response = await fetchPortfolios();
