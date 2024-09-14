@@ -1,19 +1,13 @@
 import { AnimatePresence, motion } from "framer-motion";
-import {
-	ArrowRight,
-	CircleIcon,
-	Loader2,
-	MousePointerClickIcon,
-} from "lucide-react";
 
 import Page from "@/components/page-content";
 import { techStack } from "@/components/tech-stack";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Portfolio } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import type { Components } from "react-markdown";
 
 const NewLandingPage = () => {
 	const fetchPortfolio = async () => {
@@ -32,103 +26,60 @@ const NewLandingPage = () => {
 		cacheTime: 1000 * 60 * 60, // 1 hour
 	});
 
-	const markdownComponents: Partial<Components> = {
-		p: ({ children, node, className }) => {
-			return <p className={`${className} text-base`}>{children}</p>;
-		},
-		a: ({ children, node, className, href }) => {
-			return (
-				<Link
-					className={`${className} text-base underline text-primary`}
-					href={href as string}
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					{children}
-				</Link>
-			);
-		},
-		b: ({ children, node, className }) => {
-			return (
-				<span className={`${className} font-semibold`}>{children}</span>
-			);
-		},
-	};
-
 	return (
 		<>
-			{/* loading */}
-			<AnimatePresence mode="wait">
-				{_portfolio.isFetching && (
-					<motion.div
-						key={"loader"}
-						animate={{ opacity: 1 }}
-						exit={{
-							opacity: 0,
-							transition: { duration: 0.5, delay: 0.5 },
-						}}
-						className="py-10 min-h-screen fixed top-0 left-0 w-full h-screen z-50 flex justify-center items-center bg-background"
-					>
-						<Loader2
-							size={80}
-							strokeWidth={1.2}
-							className="animate-spin"
-						/>
-					</motion.div>
-				)}
-			</AnimatePresence>
-
 			<Page
 				title="Welcome!"
 				className=" py-10 min-h-screen flex flex-col gap-10 relative"
 			>
 				{/* hero */}
 				<AnimatePresence mode="wait">
-					{_portfolio.isSuccess && (
-						<motion.div
-							initial={{ opacity: 0, translateY: 20 }}
-							animate={{ opacity: 1, translateY: 0 }}
-							transition={{
-								duration: 0.5,
-								ease: "easeOut",
-								delay: 0.5,
-							}}
-							className="py-10 h-screen flex flex-col justify-end gap-5"
-						>
-							<MousePointerClickIcon
-								size={80}
-								strokeWidth={1.2}
+					<motion.div
+						initial={{ opacity: 0, translateY: 20 }}
+						animate={{ opacity: 1, translateY: 0 }}
+						transition={{
+							duration: 0.5,
+							ease: "easeOut",
+							delay: 0.5,
+						}}
+						className="py-10 h-screen flex flex-col justify-end gap-5"
+					>
+						{/* <MousePointerClickIcon size={80} strokeWidth={1.2} /> */}
+						<div className="relative h-16 w-16">
+							<Image
+								src="/logo.png"
+								alt="logo"
+								fill
+								className="object-contain"
 							/>
-							<p className="w-full max-w-xl text-3xl">
-								Philippine based frontend developer with a niche
-								for creating functional and modern web
-								applications.
-							</p>
+						</div>
+						<p className="w-full max-w-xl text-3xl">
+							Philippine based frontend developer with a niche for
+							creating functional and modern web applications.
+						</p>
 
-							<div className="mt-10 grid grid-cols-4 lg:p-7 gap-5">
-								<div className="col-span-full lg:col-span-2">
-									<p>Current work</p>
-									<p className="font-medium">
-										Software Engineer - OTis Philippines
-										Inc.
-									</p>
-								</div>
-								<div className="col-span-full md:col-span-1 ">
-									<p>Based in</p>
-									<p className="font-medium">Philippines</p>
-								</div>
-								<div className="col-span-full md:col-span-1">
-									<p>Keep in touch</p>
-									<Link
-										className="font-medium"
-										href="mailto:chavezgerald23@gmail.com"
-									>
-										chavezgerald23@gmail.com
-									</Link>
-								</div>
+						<div className="mt-10 grid grid-cols-4 lg:p-7 gap-5">
+							<div className="col-span-full lg:col-span-2">
+								<p>Current work</p>
+								<p className="font-medium">
+									Software Engineer - OTis Philippines Inc.
+								</p>
 							</div>
-						</motion.div>
-					)}
+							<div className="col-span-full md:col-span-1 ">
+								<p>Based in</p>
+								<p className="font-medium">Philippines</p>
+							</div>
+							<div className="col-span-full md:col-span-1">
+								<p>Keep in touch</p>
+								<Link
+									className="font-medium"
+									href="mailto:chavezgerald23@gmail.com"
+								>
+									chavezgerald23@gmail.com
+								</Link>
+							</div>
+						</div>
+					</motion.div>
 				</AnimatePresence>
 
 				{/* projects */}
@@ -148,20 +99,6 @@ const NewLandingPage = () => {
 						{_portfolio.isSuccess &&
 							_portfolio.data.map((portfolio) => (
 								<div className="rounded-xl border-4 border-border overflow-hidden col-span-full md:col-span-1">
-									<div className="bg-border flex items-center justify-start p-2 gap-1 mt-[-3px]">
-										<CircleIcon
-											size={12}
-											className="fill-red-500 stroke-red-200/50"
-										/>
-										<CircleIcon
-											size={12}
-											className="fill-yellow-500 stroke-yellow-200/50"
-										/>
-										<CircleIcon
-											size={12}
-											className="fill-green-500 stroke-green-200/50"
-										/>
-									</div>
 									<Link href={`/portfolio/${portfolio.slug}`}>
 										<div className="relative w-full h-64">
 											<Image
@@ -176,7 +113,7 @@ const NewLandingPage = () => {
 										<Link
 											href={`/portfolio/${portfolio.slug}`}
 										>
-											<h3>{portfolio.title}</h3>
+											<h5>{portfolio.title}</h5>
 										</Link>
 									</div>
 								</div>
@@ -224,14 +161,13 @@ const NewLandingPage = () => {
 								<p>Short Biography</p>
 							</div>
 							<p>
-								Fresh graduate from the University of Caloocan
-								City with a degree in Bachelor of Science in
-								Computer Science. I am currently working as a
-								Software Engineer at Otis Philippines Inc. My
-								projects so far came from different industries
-								such as real estate, e-commerce, and more (I
-								cannot disclose the rest, but my portfolios here
-								are public projects or projects from my thesis).
+								Graduated in University of Caloocan City and
+								currently working as a Software Engineer at Otis
+								Philippines Inc. My projects so far came from
+								different industries such as real estate,
+								e-commerce, and more (I cannot disclose the
+								rest, but my portfolios here are public projects
+								or projects from my thesis).
 							</p>
 						</div>
 					</div>
