@@ -14,6 +14,9 @@ import { useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { toast } from "sonner";
 
+import { useTheme } from "next-themes";
+import { Highlight, themes as codeTheme } from "prism-react-renderer";
+
 export const getStaticPaths = (async () => {
 	const fetchPortfolio = async () => {
 		const q = groq`
@@ -62,6 +65,7 @@ export const getStaticProps = (async (context) => {
 const BlogPost = ({ data }: { data: PostData }) => {
 	const { scrollY } = useScroll();
 	const [isScrolled, setIsScrolled] = useState(false);
+	const { theme } = useTheme();
 
 	useMotionValueEvent(scrollY, "change", (latest) => {
 		setIsScrolled(latest > 250);
@@ -93,20 +97,70 @@ const BlogPost = ({ data }: { data: PostData }) => {
 						components={{
 							types: {
 								"Code Block": (props) => (
-									<div className="flex flex-col p-3 rounded-xl border border-border bg-secondary/50 relative group">
-										<div className="flex gap-1">
-											<div className="w-3 h-3 bg-red-500 rounded-full" />
-											<div className="w-3 h-3 bg-yellow-500 rounded-full" />
-											<div className="w-3 h-3 bg-green-500 rounded-full" />
+									<div className="flex flex-col p-3 pb-0 gap-0 relative group">
+										<div className="flex items-center w-full">
+											<code className="bg-transparent text-sm text-end w-full">
+												{props.value?.language}
+											</code>
 										</div>
-										<hr className="mt-3 mb-0 opacity-40" />
-										<code className="bg-transparent text-sm text-end">
-											{props.value?.language}
-										</code>
-										<pre className="m-0 bg-transparent">
-											{props.value?.code}
-										</pre>
-										<div className="absolute bottom-3 right-3 flex justify-end invisible group-hover:visible z-10">
+										<div className="bg-transparent">
+											<Highlight
+												theme={
+													theme === "light"
+														? codeTheme.github
+														: codeTheme.dracula
+												}
+												code={props.value?.code}
+												language={props.value?.language}
+											>
+												{({
+													className,
+													style,
+													tokens,
+													getLineProps,
+													getTokenProps,
+												}) => (
+													<pre
+														style={style}
+														className="bg-transparent m-0"
+													>
+														{tokens.map(
+															(line, i) => (
+																<div
+																	key={i}
+																	{...getLineProps(
+																		{ line }
+																	)}
+																	className="bg-transparent"
+																>
+																	<span className="bg-transparent mr-5 opacity-50">
+																		{i + 1}
+																	</span>
+																	{line.map(
+																		(
+																			token,
+																			key
+																		) => (
+																			<span
+																				key={
+																					key
+																				}
+																				{...getTokenProps(
+																					{
+																						token,
+																					}
+																				)}
+																			/>
+																		)
+																	)}
+																</div>
+															)
+														)}
+													</pre>
+												)}
+											</Highlight>
+										</div>
+										<div className=" flex justify-end mt-2  z-10">
 											<Button
 												variant="outline"
 												size="icon"
