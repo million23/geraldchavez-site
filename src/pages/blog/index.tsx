@@ -1,12 +1,13 @@
-import Page from "@/components/page-content";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
-import { PostData } from "@/lib/types";
-import { useQuery } from "@tanstack/react-query";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import Image from "next/image";
 import Link from "next/link";
+import Page from "@/components/page-content";
+import { PostData } from "@/lib/types";
+import { Skeleton } from "@/components/ui/skeleton";
+import dayjs from "dayjs";
+import { motion } from "framer-motion";
+import relativeTime from "dayjs/plugin/relativeTime";
+import { useQuery } from "@tanstack/react-query";
 
 dayjs.extend(relativeTime);
 
@@ -45,76 +46,120 @@ const BlogPage = () => {
 		keepPreviousData: true,
 	});
 
+	const meshGradientColorPoints = [
+		"#DB0C36",
+		"#7EB1A8",
+		"#EAD292",
+		"#FDAB88",
+		"#DB0C36",
+		"#7EB1A8",
+		"#EAD292",
+		"#FDAB88",
+	];
+
 	return (
-		<Page title="Blogs" className="w-full max-w-5xl mx-auto pt-32">
-			<h2>Blogs</h2>
-			<p className="max-w-xl">
-				Here, I will be posting my blogs. I will use this as a way to
-				document my journey as a developer. I will also use this as a
-				way to share my knowledge and experience with others. I hope you
-				enjoy reading my blogs.
-			</p>
+		<>
+			{/* gradient glow */}
+			<div className="absolute h-[200px] w-full top-0 left-0 z-10 pointer-events-none overflow-hidden dark:opacity-30">
+				{meshGradientColorPoints.map((color, i) => (
+					<motion.div
+						animate={{
+							left: ["-50%", "75%"],
+							opacity: [0, 0.4, 0],
+							transition: {
+								duration: Math.random() * 10 + 5,
+								repeat: Infinity,
+								ease: "linear",
+								repeatType: "loop",
+								delay: Math.random() * 7 * -1,
+							},
+						}}
+						key={i}
+						style={{
+							background: `radial-gradient(ellipse at top, ${color} 0%, transparent ${
+								Math.random() * 15 + 50
+							}%)`,
+						}}
+						className="absolute top-0 left-0 h-[100%] w-[75%] blur-lg"
+					/>
+				))}
+			</div>
 
-			<div className="mt-16 flex flex-wrap">
-				{_blogs.isLoading &&
-					Array(4)
-						.fill(0)
-						.map((_, i) => (
-							<div className="p-2 w-full md:w-1/2">
-								<Skeleton
-									key={`blogcard_loader_${i}`}
-									className="h-[200px] "
-								/>
-							</div>
-						))}
-				{_blogs.isSuccess &&
-					_blogs.data.map((blog) => (
-						<Link
-							href={`/blog/${blog.slug}`}
-							className="cursor-pointer hover:text-primary transition-all space-y-2 w-full md:w-1/2 p-2	"
-						>
-							<div className="border border-border rounded-lg overflow-hidden h-max">
-								<figure className="relative h-[250px] w-full">
-									<Image
-										src={blog.mainImage.url}
-										alt={blog.mainImage.alt}
-										fill
-										className="object-cover"
+			<Page
+				title="Blogs"
+				className="w-full max-w-5xl mx-auto pt-32 relative"
+			>
+				<h2>Blogs</h2>
+				<p className="max-w-xl">
+					Here, I will be posting my blogs. I will use this as a way
+					to document my journey as a developer. I will also use this
+					as a way to share my knowledge and experience with others. I
+					hope you enjoy reading my blogs.
+				</p>
+
+				<div className="mt-16 flex flex-wrap">
+					{_blogs.isLoading &&
+						Array(4)
+							.fill(0)
+							.map((_, i) => (
+								<div className="p-2 w-full md:w-1/2">
+									<Skeleton
+										key={`blogcard_loader_${i}`}
+										className="h-[200px] "
 									/>
+								</div>
+							))}
+					{_blogs.isSuccess &&
+						_blogs.data.map((blog) => (
+							<Link
+								href={`/blog/${blog.slug}`}
+								className="cursor-pointer hover:text-primary transition-all space-y-2 w-full md:w-1/2 p-2	"
+							>
+								<div className="border border-border rounded-lg overflow-hidden h-max">
+									<figure className="relative h-[250px] w-full">
+										<Image
+											src={blog.mainImage.url}
+											alt={blog.mainImage.alt}
+											fill
+											className="object-cover"
+										/>
 
-									{dayjs(blog.publishedAt).isAfter(
-										dayjs().subtract(2, "week")
-									) && (
-										<Badge
-											variant="default"
-											className="absolute top-2 right-2 z-10 select-none"
-										>
-											NEW
-										</Badge>
-									)}
-								</figure>
-								<div className="p-4">
-									<h5>{blog.title}</h5>
-									<p className="text-sm">
-										{dayjs(blog.publishedAt).format(
-											"MMMM DD, YYYY"
+										{dayjs(blog.publishedAt).isAfter(
+											dayjs().subtract(2, "week")
+										) && (
+											<Badge
+												variant="default"
+												className="absolute top-2 right-2 z-10 select-none"
+											>
+												NEW
+											</Badge>
 										)}
-									</p>
-									<div className="mt-4 flex flex-wrap gap-2">
-										{blog.categories
-											.sort((a, b) => a.localeCompare(b))
-											.map((cat) => (
-												<Badge variant="outline">
-													{cat}
-												</Badge>
-											))}
+									</figure>
+									<div className="p-4">
+										<h5>{blog.title}</h5>
+										<p className="text-sm">
+											{dayjs(blog.publishedAt).format(
+												"MMMM DD, YYYY"
+											)}
+										</p>
+										<div className="mt-4 flex flex-wrap gap-2">
+											{blog.categories
+												.sort((a, b) =>
+													a.localeCompare(b)
+												)
+												.map((cat) => (
+													<Badge variant="outline">
+														{cat}
+													</Badge>
+												))}
+										</div>
 									</div>
 								</div>
-							</div>
-						</Link>
-					))}
-			</div>
-		</Page>
+							</Link>
+						))}
+				</div>
+			</Page>
+		</>
 	);
 };
 
