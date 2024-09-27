@@ -6,6 +6,7 @@ import NavbarNew from "@/components/navbar-new";
 import ThemeProvider from "@/components/theme-provider";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/react";
 import { ArrowLeftCircle } from "lucide-react";
 import type { AppProps } from "next/app";
 import Link from "next/link";
@@ -76,6 +77,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
 				<Toaster position="bottom-center" />
 			</ThemeProvider>
+
+			<Analytics />
 		</>
 	);
 }
