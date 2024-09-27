@@ -1,4 +1,5 @@
 import Page from "@/components/page-content";
+import TopGradientGlow from "@/components/top-gradient-glow";
 import { Button } from "@/components/ui/button";
 import $$sanity from "@/lib/sanity.client";
 import { Portfolio } from "@/lib/types";
@@ -55,6 +56,7 @@ const PortfolioIndividual = (props: PageProps) => {
 			title={props.portfolio.title ?? "Page"}
 			className="mx-auto w-full max-w-5xl"
 		>
+			<TopGradientGlow />
 			<div className="flex flex-col gap-2 mt-32 lg:mt-40">
 				<div className="flex gap-5 items-center">
 					<Link href="/#projects">

@@ -14,6 +14,7 @@ import { useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { toast } from "sonner";
 
+import TopGradientGlow from "@/components/top-gradient-glow";
 import { useTheme } from "next-themes";
 import { Highlight, themes as codeTheme } from "prism-react-renderer";
 
@@ -73,6 +74,8 @@ const BlogPost = ({ data }: { data: PostData }) => {
 
 	return (
 		<Page title="Blog" className="mx-auto w-full max-w-5xl">
+			<TopGradientGlow />
+
 			<Link href="/blog">
 				<Button variant="ghost">
 					<FiArrowLeft className="mr-2" />
