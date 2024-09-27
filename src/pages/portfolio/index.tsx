@@ -1,10 +1,10 @@
-import Page from "@/components/page-content";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Portfolio } from "@/lib/types";
-import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-import { Components } from "react-markdown";
+import Page from "@/components/page-content";
+import { Portfolio } from "@/lib/types";
+import { Skeleton } from "@/components/ui/skeleton";
+import TopGradientGlow from "@/components/top-gradient-glow";
+import { useQuery } from "@tanstack/react-query";
 
 const PortfolioPage = () => {
 	const fetchPortfolio = async () => {
@@ -20,31 +20,10 @@ const PortfolioPage = () => {
 		staleTime: 1000 * 60 * 60, // 1 hour
 	});
 
-	const markdownComponents: Partial<Components> = {
-		p: ({ children, node, className }) => {
-			return <p className={`${className} text-base`}>{children}</p>;
-		},
-		a: ({ children, node, className, href }) => {
-			return (
-				<Link
-					className={`${className} text-base underline text-primary`}
-					href={href as string}
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					{children}
-				</Link>
-			);
-		},
-		b: ({ children, node, className }) => {
-			return (
-				<span className={`${className} font-semibold`}>{children}</span>
-			);
-		},
-	};
-
 	return (
 		<Page title="Portfolio">
+			<TopGradientGlow />
+
 			<h2>Portfolio</h2>
 			<p className="max-w-md">
 				Here's what i have done so far.

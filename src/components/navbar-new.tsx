@@ -19,7 +19,14 @@ const NavbarNew = () => {
 					backdropFilter: "blur(8px)",
 				}}
 				className="absolute top-[-50px] left-0 w-full h-[calc(100%+50px)]  -z-10"
-			/>
+			>
+				<div
+					style={{
+						backgroundImage: "url(/noise.svg)",
+					}}
+					className="w-full mix-blend-screen opacity bg-top h-full opacity-25 object-cover"
+				/>
+			</div>
 
 			<div className="w-full flex items-center justify-between gap-5">
 				<Link href="/">
@@ -85,7 +92,14 @@ const NavbarNew = () => {
 							backdropFilter: "blur(8px)",
 						}}
 						className="absolute bottom-[-50px] left-0 w-full h-[calc(100%+50px)]  -z-10"
-					/>
+					>
+						<div
+							style={{
+								backgroundImage: "url(/noise.svg)",
+							}}
+							className="w-full mix-blend-overlay opacity bg-bottom h-full object-cover"
+						/>
+					</div>
 				</div>
 			</div>
 

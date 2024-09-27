@@ -4,8 +4,8 @@ import Link from "next/link";
 import Page from "@/components/page-content";
 import { PostData } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
+import TopGradientGlow from "@/components/top-gradient-glow";
 import dayjs from "dayjs";
-import { motion } from "framer-motion";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useQuery } from "@tanstack/react-query";
 
@@ -46,44 +46,10 @@ const BlogPage = () => {
 		keepPreviousData: true,
 	});
 
-	const meshGradientColorPoints = [
-		"#DB0C36",
-		"#7EB1A8",
-		"#EAD292",
-		"#FDAB88",
-		"#DB0C36",
-		"#7EB1A8",
-		"#EAD292",
-		"#FDAB88",
-	];
-
 	return (
 		<>
 			{/* gradient glow */}
-			<div className="absolute h-[200px] w-full top-0 left-0 z-10 pointer-events-none overflow-hidden dark:opacity-30">
-				{meshGradientColorPoints.map((color, i) => (
-					<motion.div
-						animate={{
-							left: ["-50%", "75%"],
-							opacity: [0, 0.4, 0],
-							transition: {
-								duration: Math.random() * 10 + 5,
-								repeat: Infinity,
-								ease: "linear",
-								repeatType: "loop",
-								delay: Math.random() * 7 * -1,
-							},
-						}}
-						key={i}
-						style={{
-							background: `radial-gradient(ellipse at top, ${color} 0%, transparent ${
-								Math.random() * 15 + 50
-							}%)`,
-						}}
-						className="absolute top-0 left-0 h-[100%] w-[75%] blur-lg"
-					/>
-				))}
-			</div>
+			<TopGradientGlow />
 
 			<Page
 				title="Blogs"
