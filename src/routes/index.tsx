@@ -1,4 +1,4 @@
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { GradientASCII } from "#/components/gradient-ascii";
@@ -9,16 +9,10 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "#/components/ui/carousel";
-
-interface PortfolioCard {
-	_id: string;
-	title: string;
-	slug: string;
-	mainImage: {
-		url: string;
-		alt: string | null;
-	};
-}
+import {
+	type PortfolioCard,
+	portfoliosQueryOptions,
+} from "#/lib/portfolio";
 
 const techStack = [
 	{ name: "Vercel", url: "https://vercel.com/" },
@@ -30,41 +24,6 @@ const techStack = [
 	{ name: "Bun", url: "https://bun.com/" },
 	{ name: "Figma", url: "https://www.figma.com/" },
 ];
-
-async function fetchPortfolios() {
-	const projectId =
-		import.meta.env.VITE_SANITY_PROJECT_ID ??
-		(typeof process !== "undefined"
-			? process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
-			: undefined) ??
-		"2l4otb3p";
-	const dataset = "development";
-	const query = encodeURIComponent(`*[_type == "portfolio"]{
-		_id,
-		title,
-		"slug": slug.current,
-		mainImage { alt, "url": asset->url }
-	}`);
-	const res = await fetch(
-		`https://${projectId}.api.sanity.io/v2026-01-08/data/query/${dataset}?query=${query}&perspective=published`,
-	);
-
-	if (!res.ok) {
-		throw new Error("Failed to fetch portfolios");
-	}
-
-	const json = (await res.json()) as { result: PortfolioCard[] };
-	return json.result ?? [];
-}
-
-const portfoliosQueryOptions = queryOptions({
-	queryKey: ["portfolio.all"],
-	queryFn: fetchPortfolios,
-	staleTime: 1000 * 60 * 60,
-	gcTime: 1000 * 60 * 60,
-	retry: 2,
-	refetchOnWindowFocus: false,
-});
 
 export const Route = createFileRoute("/")({
 	loader: ({ context }) =>
@@ -166,11 +125,15 @@ function ProjectCarousel({
 								className="group flex flex-col text-foreground no-underline"
 							>
 								<div className="aspect-[16/9] overflow-hidden rounded-lg border border-border transition-[border-color] duration-150 ease-out group-hover:border-[var(--ds-gray-500)]">
-									<img
-										src={slide.mainImage.url}
-										alt={slide.mainImage.alt ?? slide.title}
-										className="size-full object-cover object-center"
-									/>
+									{slide.mainImage?.url ? (
+										<img
+											src={slide.mainImage.url}
+											alt={slide.mainImage.alt ?? slide.title}
+											className="size-full object-cover object-center"
+										/>
+									) : (
+										<div className="size-full bg-muted" />
+									)}
 								</div>
 								<div className="mt-3 flex items-baseline justify-between gap-3">
 									<h2 className="text-heading-16">{slide.title}</h2>
