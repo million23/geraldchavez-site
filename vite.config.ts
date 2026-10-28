@@ -11,7 +11,7 @@ const config = defineConfig({
   resolve: { tsconfigPaths: true },
   plugins: [
     devtools(),
-    nitro({ preset: 'bun' }),
+    nitro({ preset: process.env.VERCEL ? 'vercel' : 'bun' }),
     tailwindcss(),
     tanstackStart(),
     viteReact(),
