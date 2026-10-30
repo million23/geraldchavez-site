@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-router";
 import { Footer } from "#/components/footer";
 import { Navbar } from "#/components/navbar";
+import { SectionCurtainProvider } from "#/components/section-curtain";
 import appCss from "../styles.css?url";
 
 interface MyRouterContext {
@@ -63,11 +64,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body className="overflow-x-hidden bg-background text-foreground">
-				<Navbar />
-				<div className="mx-auto w-full max-w-[1400px] px-6 pb-16 md:pb-0">
-					{children}
-					<Footer />
-				</div>
+				<SectionCurtainProvider>
+					<Navbar />
+					<div className="mx-auto w-full max-w-[1400px] px-6 pb-16 md:pb-0">
+						{children}
+						<Footer />
+					</div>
+				</SectionCurtainProvider>
 				<Scripts />
 			</body>
 		</html>
