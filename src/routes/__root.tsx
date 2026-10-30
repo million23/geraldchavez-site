@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-router";
 import { Footer } from "#/components/footer";
 import { Navbar } from "#/components/navbar";
+import { SectionCurtainProvider } from "#/components/section-curtain";
 import appCss from "../styles.css?url";
 
 interface MyRouterContext {
@@ -22,28 +23,28 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 			},
 			{ title: "Welcome! | Gerald Chavez" },
 			{ name: "description", content: "Personal Website" },
-			{ property: "og:url", content: "https://geraldchavez.vercel.app/" },
+			{ property: "og:url", content: "https://geraldchavez.xyz/" },
 			{ property: "og:type", content: "website" },
 			{ property: "og:title", content: "Welcome! | Gerald Chavez" },
 			{ property: "og:description", content: "Personal Website" },
 			{
 				property: "og:image",
-				content: "https://geraldchavez.vercel.app/OG.png",
+				content: "https://geraldchavez.xyz/OG.png",
 			},
 			{ name: "twitter:card", content: "summary_large_image" },
 			{
 				property: "twitter:domain",
-				content: "geraldchavez.vercel.app",
+				content: "geraldchavez.xyz",
 			},
 			{
 				property: "twitter:url",
-				content: "https://geraldchavez.vercel.app/",
+				content: "https://geraldchavez.xyz/",
 			},
 			{ name: "twitter:title", content: "Welcome!| Gerald Chavez" },
 			{ name: "twitter:description", content: "Personal Website" },
 			{
 				name: "twitter:image",
-				content: "https://geraldchavez.vercel.app/OG.png",
+				content: "https://geraldchavez.xyz/OG.png",
 			},
 		],
 		links: [
@@ -62,12 +63,14 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<head>
 				<HeadContent />
 			</head>
-			<body className="bg-background text-foreground">
-				<Navbar />
-				<div className="mx-auto w-full max-w-[1400px] px-6 pb-16 md:pb-0">
-					{children}
-					<Footer />
-				</div>
+			<body className="overflow-x-hidden bg-background text-foreground">
+				<SectionCurtainProvider>
+					<Navbar />
+					<div className="mx-auto w-full max-w-[1400px] px-6 pb-16 md:pb-0">
+						{children}
+						<Footer />
+					</div>
+				</SectionCurtainProvider>
 				<Scripts />
 			</body>
 		</html>

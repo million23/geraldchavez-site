@@ -1,11 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import {
 	getBodySections,
 	PortableBody,
 } from "#/components/portable-body";
+import { SectionLink } from "#/components/section-link";
 import { formatPostDate } from "#/lib/blog";
 import { portfolioQueryOptions } from "#/lib/portfolio";
 import { cn } from "#/lib/utils";
@@ -38,18 +38,7 @@ export const Route = createFileRoute("/portfolio/$slug")({
 });
 
 function PortfolioPage() {
-	const { slug } = Route.useParams();
-	const projectQuery = useQuery(portfolioQueryOptions(slug));
-	const project = projectQuery.data;
-
-	if (!project) {
-		return (
-			<div className="py-10">
-				<p className="text-copy-14">That project is not here.</p>
-			</div>
-		);
-	}
-
+	const project = Route.useLoaderData();
 	const sections = useMemo(
 		() => getBodySections(project.body ?? []),
 		[project.body],
@@ -80,14 +69,14 @@ function PortfolioPage() {
 	return (
 		<article className="grid grid-cols-1 gap-10 pt-12 pb-10 md:grid-cols-12">
 			<aside className="flex flex-col gap-6 md:col-span-3 md:sticky md:top-24 md:self-start">
-				<Link
+				<SectionLink
 					to="/"
 					hash="projects"
 					className="inline-flex w-fit items-center gap-2 text-label-14"
 				>
 					<ArrowLeft size={16} />
 					Back to Projects
-				</Link>
+				</SectionLink>
 				<div className="flex flex-col gap-6">
 					{project.publishedAt ? (
 						<div>

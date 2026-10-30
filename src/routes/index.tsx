@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { SectionLink } from "#/components/section-link";
 import { useEffect, useState } from "react";
 import { GradientASCII } from "#/components/gradient-ascii";
 import {
@@ -46,7 +47,7 @@ function HeroField() {
 	return (
 		<div
 			aria-hidden="true"
-			className="absolute inset-0 z-0 h-full w-full opacity-40"
+			className="pointer-events-none absolute inset-y-0 left-1/2 z-0 h-full w-screen -translate-x-1/2 opacity-40"
 		>
 			<GradientASCII
 				colors={
@@ -119,7 +120,7 @@ function ProjectCarousel({
 				{slides.map((slide) => (
 					<CarouselItem key={slide._id} className="basis-full md:basis-1/2">
 						{"slug" in slide ? (
-							<Link
+							<SectionLink
 								to="/portfolio/$slug"
 								params={{ slug: slide.slug }}
 								className="group flex flex-col text-foreground no-underline"
@@ -141,7 +142,7 @@ function ProjectCarousel({
 										{slide.slug}
 									</p>
 								</div>
-							</Link>
+							</SectionLink>
 						) : (
 							<div>
 								<div className="aspect-[16/9] animate-pulse rounded-lg bg-muted motion-reduce:animate-none" />

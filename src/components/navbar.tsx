@@ -1,7 +1,8 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { useRouterState } from "@tanstack/react-router";
 import { MenuIcon, MoonIcon, SunIcon, XIcon } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
+import { SectionLink } from "#/components/section-link";
 import { Button, buttonVariants } from "#/components/ui/button";
 import { cn } from "#/lib/utils";
 
@@ -39,7 +40,7 @@ function NavLink({
 	const active = to === "/blog" ? pathname.startsWith("/blog") : false;
 
 	return (
-		<Link
+		<SectionLink
 			to={to}
 			hash={hash}
 			onClick={onClick}
@@ -51,7 +52,7 @@ function NavLink({
 			)}
 		>
 			{children}
-		</Link>
+		</SectionLink>
 	);
 }
 
@@ -65,12 +66,12 @@ export function Navbar() {
 	return (
 		<nav className="sticky top-0 z-50 border-b border-border bg-background">
 			<div className="mx-auto flex h-12 w-full max-w-[1400px] items-center px-6">
-				<Link
+				<SectionLink
 					to="/"
 					className="shrink-0 text-label-14 font-medium text-foreground no-underline"
 				>
 					Gerald Chavez
-				</Link>
+				</SectionLink>
 
 				<div className="ml-8 hidden h-12 md:flex">
 					<NavLink to="/blog">Blog</NavLink>
@@ -117,7 +118,7 @@ export function Navbar() {
 								style={{ transformOrigin: "bottom right" }}
 								className="relative z-50 mb-3 flex w-48 flex-col overflow-hidden rounded-lg border border-border bg-background shadow-[0_0_0_1px_var(--ds-gray-alpha-400),0_1px_2px_#00000029]"
 							>
-								<Link
+								<SectionLink
 									to="/blog"
 									onClick={() => setIsOpen(false)}
 									className={cn(
@@ -126,8 +127,8 @@ export function Navbar() {
 									)}
 								>
 									Blog
-								</Link>
-								<Link
+								</SectionLink>
+								<SectionLink
 									to="/"
 									hash="footer"
 									onClick={() => setIsOpen(false)}
@@ -137,7 +138,7 @@ export function Navbar() {
 									)}
 								>
 									Contact
-								</Link>
+								</SectionLink>
 								<button
 									type="button"
 									onClick={() => setTheme(nextTheme)}

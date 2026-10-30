@@ -1,4 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
+import { createServerFn } from "@tanstack/react-start";
 import { sanityQuery } from "#/lib/sanity";
 
 export interface PortfolioImage {
@@ -25,16 +26,23 @@ const cardProjection = `
 	mainImage { alt, "url": asset->url }
 `;
 
-async function fetchPortfolios() {
+const fetchPortfolios = createServerFn({ method: "GET" }).handler(async () => {
 	const result = await sanityQuery<PortfolioCard[]>(
 		`*[_type == "portfolio"]{${cardProjection}} | order(publishedAt desc)`,
 	);
 	return result ?? [];
-}
+});
 
-async function fetchPortfolio(slug: string) {
-	return sanityQuery<PortfolioProject | null>(
-		`*[_type == "portfolio" && slug.current == $slug][0]{
+const fetchPortfolio = createServerFn({ method: "GET" })
+	.validator((slug: unknown) => {
+		if (typeof slug !== "string" || slug.length === 0) {
+			throw new Error("Invalid slug");
+		}
+		return slug;
+	})
+	.handler(async ({ data: slug }) => {
+		return sanityQuery<PortfolioProject | null>(
+			`*[_type == "portfolio" && slug.current == $slug][0]{
 			${cardProjection},
 			publishedAt,
 			body[]{
@@ -42,13 +50,13 @@ async function fetchPortfolio(slug: string) {
 				_type == "image" => { alt, "url": asset->url }
 			}
 		}`,
-		{ slug },
-	);
-}
+			{ slug },
+		);
+	});
 
 export const portfoliosQueryOptions = queryOptions({
 	queryKey: ["portfolio.all"],
-	queryFn: fetchPortfolios,
+	queryFn: () => fetchPortfolios(),
 	staleTime: 1000 * 60 * 60,
 	gcTime: 1000 * 60 * 60,
 	retry: 2,
@@ -58,7 +66,7 @@ export const portfoliosQueryOptions = queryOptions({
 export function portfolioQueryOptions(slug: string) {
 	return queryOptions({
 		queryKey: ["portfolio", slug],
-		queryFn: () => fetchPortfolio(slug),
+		queryFn: () => fetchPortfolio({ data: slug }),
 		staleTime: 1000 * 60 * 60,
 		gcTime: 1000 * 60 * 60,
 		retry: 2,

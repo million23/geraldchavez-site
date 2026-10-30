@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { SectionLink } from "#/components/section-link";
 import { Badge } from "#/components/ui/badge";
 import {
 	type BlogPost,
@@ -68,7 +69,7 @@ function BlogPage() {
 
 			{posts.isSuccess && featured && (
 				<>
-					<Link
+					<SectionLink
 						to="/blog/$slug"
 						params={{ slug: featured.slug }}
 						className="group grid grid-cols-1 gap-6 text-foreground no-underline md:grid-cols-12"
@@ -98,7 +99,7 @@ function BlogPage() {
 								</p>
 							</div>
 						</div>
-					</Link>
+					</SectionLink>
 
 					{rest.length > 0 ? (
 						<div className="flex flex-col gap-6">
@@ -109,7 +110,7 @@ function BlogPage() {
 										key={post._id}
 										className="relative border-b border-border before:absolute before:inset-y-0 before:left-1/2 before:z-0 before:w-screen before:-translate-x-1/2 before:bg-transparent before:transition-[background-color] before:duration-150 before:ease-out before:content-[''] hover:before:bg-[var(--ds-gray-200)]"
 									>
-										<Link
+										<SectionLink
 											to="/blog/$slug"
 											params={{ slug: post.slug }}
 											className="relative z-10 flex w-full min-h-16 items-center gap-4 py-3 text-foreground no-underline"
@@ -136,7 +137,7 @@ function BlogPage() {
 													? formatPostDate(post.publishedAt)
 													: ""}
 											</p>
-										</Link>
+										</SectionLink>
 									</li>
 								))}
 							</ul>

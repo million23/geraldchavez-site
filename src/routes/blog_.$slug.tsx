@@ -1,11 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import {
 	getBodySections,
 	PortableBody,
 } from "#/components/portable-body";
+import { SectionLink } from "#/components/section-link";
 import { Badge } from "#/components/ui/badge";
 import { formatPostDate, postQueryOptions, titleCase } from "#/lib/blog";
 import { cn } from "#/lib/utils";
@@ -38,18 +38,7 @@ export const Route = createFileRoute("/blog_/$slug")({
 });
 
 function BlogPostPage() {
-	const { slug } = Route.useParams();
-	const postQuery = useQuery(postQueryOptions(slug));
-	const post = postQuery.data;
-
-	if (!post) {
-		return (
-			<div className="py-10">
-				<p className="text-copy-14">That post is not here.</p>
-			</div>
-		);
-	}
-
+	const post = Route.useLoaderData();
 	const filed = (post.categories ?? [])
 		.slice()
 		.sort((a, b) => a.localeCompare(b));
@@ -83,13 +72,13 @@ function BlogPostPage() {
 	return (
 		<article className="grid grid-cols-1 gap-10 pt-12 pb-10 md:grid-cols-12">
 			<aside className="flex flex-col gap-6 md:col-span-3 md:sticky md:top-24 md:self-start">
-				<Link
+				<SectionLink
 					to="/blog"
 					className="inline-flex w-fit items-center gap-2 text-label-14"
 				>
 					<ArrowLeft size={16} />
 					Back to Blog List
-				</Link>
+				</SectionLink>
 				<div className="flex flex-col gap-6">
 					<div>
 						<p className="text-label-13 text-muted-foreground">Published</p>
