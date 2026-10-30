@@ -62,7 +62,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<head>
 				<HeadContent />
 			</head>
-			<body className="bg-background text-foreground">
+			<body className="overflow-x-hidden bg-background text-foreground">
 				<Navbar />
 				<div className="mx-auto w-full max-w-[1400px] px-6 pb-16 md:pb-0">
 					{children}

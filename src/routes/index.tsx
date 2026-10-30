@@ -46,7 +46,7 @@ function HeroField() {
 	return (
 		<div
 			aria-hidden="true"
-			className="absolute inset-0 z-0 h-full w-full opacity-40"
+			className="pointer-events-none absolute inset-y-0 left-1/2 z-0 h-full w-screen -translate-x-1/2 opacity-40"
 		>
 			<GradientASCII
 				colors={
