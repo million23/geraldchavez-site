@@ -1,4 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
+import { createServerFn } from "@tanstack/react-start";
 import { sanityQuery } from "#/lib/sanity";
 
 export interface BlogImage {
@@ -25,29 +26,36 @@ const postProjection = `
 	"slug": slug.current
 `;
 
-async function fetchPosts() {
+const fetchPosts = createServerFn({ method: "GET" }).handler(async () => {
 	const result = await sanityQuery<BlogPost[]>(
 		`*[_type == "post"]{${postProjection}} | order(publishedAt desc)`,
 	);
 	return result ?? [];
-}
+});
 
-async function fetchPost(slug: string) {
-	return sanityQuery<BlogPost | null>(
-		`*[_type == "post" && slug.current == $slug][0]{
+const fetchPost = createServerFn({ method: "GET" })
+	.validator((slug: unknown) => {
+		if (typeof slug !== "string" || slug.length === 0) {
+			throw new Error("Invalid slug");
+		}
+		return slug;
+	})
+	.handler(async ({ data: slug }) => {
+		return sanityQuery<BlogPost | null>(
+			`*[_type == "post" && slug.current == $slug][0]{
 			${postProjection},
 			body[]{
 				...,
 				_type == "image" => { alt, "url": asset->url }
 			}
 		}`,
-		{ slug },
-	);
-}
+			{ slug },
+		);
+	});
 
 export const postsQueryOptions = queryOptions({
 	queryKey: ["blogs.all"],
-	queryFn: fetchPosts,
+	queryFn: () => fetchPosts(),
 	staleTime: 1000 * 60 * 60,
 	gcTime: 1000 * 60 * 60,
 	retry: 2,
@@ -57,7 +65,7 @@ export const postsQueryOptions = queryOptions({
 export function postQueryOptions(slug: string) {
 	return queryOptions({
 		queryKey: ["blogs", slug],
-		queryFn: () => fetchPost(slug),
+		queryFn: () => fetchPost({ data: slug }),
 		staleTime: 1000 * 60 * 60,
 		gcTime: 1000 * 60 * 60,
 		retry: 2,

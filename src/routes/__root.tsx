@@ -22,28 +22,28 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 			},
 			{ title: "Welcome! | Gerald Chavez" },
 			{ name: "description", content: "Personal Website" },
-			{ property: "og:url", content: "https://geraldchavez.vercel.app/" },
+			{ property: "og:url", content: "https://geraldchavez.xyz/" },
 			{ property: "og:type", content: "website" },
 			{ property: "og:title", content: "Welcome! | Gerald Chavez" },
 			{ property: "og:description", content: "Personal Website" },
 			{
 				property: "og:image",
-				content: "https://geraldchavez.vercel.app/OG.png",
+				content: "https://geraldchavez.xyz/OG.png",
 			},
 			{ name: "twitter:card", content: "summary_large_image" },
 			{
 				property: "twitter:domain",
-				content: "geraldchavez.vercel.app",
+				content: "geraldchavez.xyz",
 			},
 			{
 				property: "twitter:url",
-				content: "https://geraldchavez.vercel.app/",
+				content: "https://geraldchavez.xyz/",
 			},
 			{ name: "twitter:title", content: "Welcome!| Gerald Chavez" },
 			{ name: "twitter:description", content: "Personal Website" },
 			{
 				name: "twitter:image",
-				content: "https://geraldchavez.vercel.app/OG.png",
+				content: "https://geraldchavez.xyz/OG.png",
 			},
 		],
 		links: [

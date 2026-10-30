@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -38,18 +37,7 @@ export const Route = createFileRoute("/blog_/$slug")({
 });
 
 function BlogPostPage() {
-	const { slug } = Route.useParams();
-	const postQuery = useQuery(postQueryOptions(slug));
-	const post = postQuery.data;
-
-	if (!post) {
-		return (
-			<div className="py-10">
-				<p className="text-copy-14">That post is not here.</p>
-			</div>
-		);
-	}
-
+	const post = Route.useLoaderData();
 	const filed = (post.categories ?? [])
 		.slice()
 		.sort((a, b) => a.localeCompare(b));
